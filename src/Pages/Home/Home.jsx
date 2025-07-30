@@ -141,7 +141,12 @@ function Home() {
   };
 
   const handleEdit = (credit) => {
-    setForm({ name: credit.name, date: credit.date, price: credit.price });
+    setForm({
+      name: credit.name,
+      date: credit.date,
+      price: credit.price,
+      phone: credit.phone || "+998", // default fallback just in case
+    });
     setEditingId(credit.id);
     setShowForm(true);
   };
