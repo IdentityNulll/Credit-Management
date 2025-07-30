@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import "./Home.css";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Home() {
   const [data, setData] = useState([]);
@@ -41,6 +43,14 @@ function Home() {
       amount: "Miqdor",
       confirm: "Tasdiqlash",
       cancel: "Bekor qilish",
+      addButton: "Qo'shish",
+      incrementPrice: "Narxni oshirish",
+      decrementPrice: "Narxni kamaytirish",
+      lang: "UZ",
+      money: "💸 Summa: ",
+      date: "⏳ Sana: ",
+      phone: "📞 Telefon: ",
+      sum: "so'm"
     },
     kr: {
       title: "Насия",
@@ -62,6 +72,14 @@ function Home() {
       amount: "Миқдор",
       confirm: "Тасдиқлаш",
       cancel: "Бекор қилиш",
+      addButton: "Қўшиш",
+      incrementPrice: "Нархни ошириш",
+      decrementPrice: "Нархни камайтириш",
+      lang: "УЗ",
+      money: "💸 Сумма: ",
+      date: "⏳ Сана: ",
+      phone: "📞 Телефон: ",
+      sum: "сўм"
     },
   };
 
@@ -152,10 +170,14 @@ function Home() {
   };
 
   const filteredData = data
-    .filter((credit) =>
-      credit.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
+    .filter((credit) => {
+      const term = searchTerm.toLowerCase();
+      return (
+        credit.name.toLowerCase().includes(term) ||
+        credit.phone.toLowerCase().includes(term)
+      );
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const handlePriceUpdate = (type) => {
     if (!changeAmount || isNaN(changeAmount) || !incrementData) return;
@@ -191,22 +213,27 @@ function Home() {
       })
       .then(() => fetchCredits());
   };
+  const toggleLang = () => {
+    setLang((prev) => (prev === "uz" ? "kr" : "uz"));
+  };
 
   return (
     <div className="home-container">
       <header className="header">
-        <h2 className="title">{translations[lang].title}</h2>
         <div className="language-switcher">
-          <button onClick={() => setLang("uz")} className="lang-btn">
-            UZ
-          </button>
-          <button onClick={() => setLang("kr")} className="lang-btn">
-            KR
-          </button>
+          <div
+            className="lang-toggle"
+            onClick={() => setLang((prev) => (prev === "uz" ? "kr" : "uz"))}
+          >
+            <div className={`slider ${lang === "kr" ? "right" : ""}`}></div>
+            <span className={`lang-label ${lang === "kr" ? "left" : "right"}`}>
+              {translations[lang].lang}
+            </span>
+          </div>
         </div>
 
         <button className="add-button" onClick={() => setShowForm(true)}>
-          +
+          {translations[lang].addButton || "Qo'shish"}
         </button>
       </header>
 
@@ -222,8 +249,10 @@ function Home() {
       {showForm && (
         <div className="modal-overlay">
           <div className="modal-content" ref={modalRef}>
+            <div className="nothing"></div>
+
             <button className="close-button" onClick={resetForm}>
-              ×
+              <FontAwesomeIcon icon={faX} />
             </button>
             <form className="credit-form" onSubmit={handleSubmit}>
               <input
@@ -278,23 +307,29 @@ function Home() {
         {filteredData.map((credit) => (
           <li className="credit-item" key={credit.id}>
             <div className="credit-details">
-              <strong style={{ color: "red" }}>
-                {credit.name} —{" "}
-                <span style={{ color: "green" }}>
-                  {Number(credit.price)
-                    .toLocaleString("uz-UZ")
-                    .replace(/,/g, ".")}{" "}
-                  so'm
-                </span>{" "}
+              <strong style={{ fontSize: 22, fontWeight: 700 }}>
+                {credit.name}
               </strong>
-              <span style={{ color: "black", fontWeight: 600 }}>
-                {credit.date}{" "}
+              <span>
+                <span>{translations[lang].money} </span>
+                {Number(credit.price)
+                  .toLocaleString("uz-UZ")
+                  .replace(/,/g, ".")}{" "}
+                {translations[lang].sum}
+              </span>
+
+              <span>
+                {translations[lang].phone}
                 <a
                   href={`tel:${credit.phone}`}
                   style={{ color: "#2196f3", textDecoration: "underline" }}
                 >
                   {credit.phone}
                 </a>
+              </span>
+              <span>
+                <span>{translations[lang].date} </span>
+                {credit.date}{" "}
               </span>
             </div>
             <div className="credit-actions">
@@ -352,7 +387,9 @@ function Home() {
         <div className="modal-overlay">
           <div className="modal-content" style={{ minWidth: "300px" }}>
             <h3 style={{ marginBottom: "1rem" }}>
-              {incrementData.type === "inc" ? "Increment" : "Decrement"} Price
+              {incrementData.type === "inc"
+                ? translations[lang].incrementPrice
+                : translations[lang].decrementPrice}
             </h3>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
               <input
