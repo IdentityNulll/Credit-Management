@@ -25,7 +25,7 @@ function Home() {
   const translations = {
     uz: {
       title: "Nasiya",
-      searchPlaceholder: "Ism bilan qidirish...",
+      searchPlaceholder: "Qidirish...",
       namePlaceholder: "Ism",
       datePlaceholder: "Sana",
       pricePlaceholder: "Nasiya Narxi",
@@ -50,11 +50,13 @@ function Home() {
       money: "💸 Summa: ",
       date: "⏳ Sana: ",
       phone: "📞 Telefon: ",
-      sum: "so'm"
+      sum: "so'm",
+      door: "🚪 Eshik: ",
+      doorPlaceholder: "Eshik nomi",
     },
     kr: {
       title: "Насия",
-      searchPlaceholder: "Исм билан қидириш...",
+      searchPlaceholder: "қидириш...",
       namePlaceholder: "Исм",
       datePlaceholder: "Сана",
       pricePlaceholder: "Насия нархи",
@@ -79,7 +81,9 @@ function Home() {
       money: "💸 Сумма: ",
       date: "⏳ Сана: ",
       phone: "📞 Телефон: ",
-      sum: "сўм"
+      sum: "сўм",
+      door: "🚪 Ешик: ",
+      doorPlaceholder: "Ешик номи",
     },
   };
 
@@ -134,7 +138,7 @@ function Home() {
   };
 
   const resetForm = () => {
-    setForm({ name: "", date: "", price: "", phone: "+998" });
+    setForm({ name: "", date: "", price: "", phone: "+998",});
     setShowForm(false);
     setEditingId(null);
   };
@@ -163,8 +167,9 @@ function Home() {
       name: credit.name,
       date: credit.date,
       price: credit.price,
-      phone: credit.phone || "+998", // default fallback just in case
+      phone: credit.phone || "+998",
     });
+
     setEditingId(credit.id);
     setShowForm(true);
   };
