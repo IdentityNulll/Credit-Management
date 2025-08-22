@@ -1,5 +1,6 @@
 import React from 'react'
 import Home from './Pages/Home/Home.jsx'
+import {useState, useEffect} from 'React' 
 
 function App() {
   const [username, setUsername] = useState("");
