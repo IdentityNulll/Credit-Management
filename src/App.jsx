@@ -1,5 +1,5 @@
-import React from "react";
-import Home from "./Pages/Home/Home.jsx";
+import React from 'react'
+import Home from './Pages/Home/Home.jsx'
 
 function App() {
   const [username, setUsername] = useState("");
