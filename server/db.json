@@ -1,20 +1,20 @@
 {
   "credits": [
     {
-      "id": "7020daf6-00d7-4a9a-b763-5667304c10bd",
-      "name": "Alisher Karimov",
-      "date": "2026-05-21",
-      "price": "150000",
-      "phone": "+998901234567",
-      "createdAt": "2026-05-21T12:19:35.117Z"
-    },
-    {
       "id": "376014a6-04e8-4bb6-976c-0a8cce10cfea",
       "name": "Abubakr Nurmatov",
       "date": "2026-04-04",
       "price": "1500000",
       "phone": "+998934014150",
       "createdAt": "2026-05-21T12:30:46.615Z"
+    },
+    {
+      "id": "88b2b0be-2129-48f5-905a-698db93a8c8e",
+      "name": "Abubakr Nurmatov",
+      "date": "2026-06-05",
+      "price": "50000",
+      "phone": "+998934014150",
+      "createdAt": "2026-06-05T09:18:21.209Z"
     }
   ]
 }

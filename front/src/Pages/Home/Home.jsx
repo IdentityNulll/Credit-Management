@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getCredits, createCredit, updateCredit, deleteCredit } from "../../axios.js";
 import React, { useEffect, useState, useRef } from "react";
 import "./Home.css";
 import { faX } from "@fortawesome/free-solid-svg-icons";
@@ -50,6 +50,20 @@ const getFriendlyDate = (dateStr, lang) => {
   }
   
   return formattedDate;
+};
+
+const getSmsLink = (credit, lang) => {
+  if (!credit || !credit.phone) return "";
+  const debt = Number(credit.price)
+    .toLocaleString("uz-UZ")
+    .replace(/,/g, ".");
+  let message = "";
+  if (lang === "uz") {
+    message = `Assalomu alaykum, ${credit.name}. Do'konimizdan ${debt} so'm qarzingiz bor ekan. Shuni eslatib qo'ymoqchi edik. Iltimos, iloji boricha tezroq to'lasangiz.`;
+  } else {
+    message = `Ассалому алайкум, ${credit.name}. Дўконимиздан ${debt} сўм қарзингиз бор экан. Шуни эслатиб қўймоқчи эдик. Илтимос, иложи борича тезроқ тўласангиз.`;
+  }
+  return `sms:${credit.phone}?body=${encodeURIComponent(message)}`;
 };
 
 function Home() {
@@ -163,9 +177,8 @@ function Home() {
   }, [showForm, deleteConfirmId]);
 
   const fetchCredits = () => {
-    axios
-      .get("http://localhost:3000/credits")
-      .then((res) => setData(res.data))
+    getCredits()
+      .then((res) => setData(res))
       .catch((err) => console.error("Error fetching credits:", err));
   };
 
@@ -185,8 +198,8 @@ function Home() {
       price: form.price.replace(/\s/g, ""),
     };
     const request = editingId
-      ? axios.put(`http://localhost:3000/credits/${editingId}`, submissionForm)
-      : axios.post("http://localhost:3000/credits", submissionForm);
+      ? updateCredit(editingId, submissionForm)
+      : createCredit(submissionForm);
 
     request.then(() => {
       fetchCredits();
@@ -206,8 +219,7 @@ function Home() {
 
   const handleDeleteConfirmed = () => {
     if (deleteConfirmId) {
-      axios
-        .delete(`http://localhost:3000/credits/${deleteConfirmId}`)
+      deleteCredit(deleteConfirmId)
         .then(() => {
           fetchCredits();
           setDeleteConfirmId(null);
@@ -411,7 +423,7 @@ function Home() {
               <span>
                 {translations[lang].phone}
                 <a
-                  href={`tel:${credit.phone}`}
+                  href={getSmsLink(credit, lang)}
                   style={{ color: "#2196f3", textDecoration: "underline" }}
                 >
                   {credit.phone}
