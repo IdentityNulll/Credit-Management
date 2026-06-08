@@ -281,16 +281,15 @@ function Home() {
         ? Number(incrementData.price) + rawAmount
         : Number(incrementData.price) - rawAmount;
 
-    axios
-      .put(`http://localhost:3000/credits/${incrementData.id}`, {
+      updateCredit(incrementData.id, {
         ...incrementData,
         price: newPrice.toString(),
       })
-      .then(() => {
-        fetchCredits();
-        setIncrementData(null);
-        setChangeAmount("");
-      });
+        .then(() => {
+          fetchCredits();
+          setIncrementData(null);
+          setChangeAmount("");
+        });
   };
 
   const handleFixedPriceChange = (credit, type) => {
@@ -300,11 +299,10 @@ function Home() {
         ? Number(credit.price) + amount
         : Number(credit.price) - amount;
 
-    axios
-      .put(`http://localhost:3000/credits/${credit.id}`, {
-        ...credit,
-        price: newPrice.toString(),
-      })
+    updateCredit(credit.id, {
+      ...credit,
+      price: newPrice.toString(),
+    })
       .then(() => fetchCredits());
   };
 
