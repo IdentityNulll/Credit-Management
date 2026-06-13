@@ -12,6 +12,10 @@ body {
   margin: auto;
 }
 
+.amount {
+  width: 100%;
+}
+
 /* Header */
 .header {
   display: flex;

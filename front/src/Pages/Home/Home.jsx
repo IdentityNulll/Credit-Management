@@ -505,7 +505,7 @@ function Home() {
                 </span>
                 <input
                   type="text"
-                  className="input"
+                  className="input amount"
                   placeholder={translations[lang].amount || "Miqdor"}
                   value={changeAmount}
                   onChange={(e) => setChangeAmount(formatNumberWithSpaces(e.target.value))}
