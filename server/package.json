@@ -1,19 +1,19 @@
 {
-  "name": "credit-management-server",
+  "name": "nasiya-server",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "description": "Nasiya Credit Management REST API",
-  "main": "index.js",
+  "description": "Nasiya — credit/debt management REST API",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "seed": "node src/seed.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
   }
 }
