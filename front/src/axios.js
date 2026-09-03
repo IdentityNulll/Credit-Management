@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Base URL for the backend API (development)
 const api = axios.create({
-  baseURL: 'http://localhost:5555',
+  baseURL: 'https://credit-management-production-8ebe.up.railway.app/',
   headers: {
     'Content-Type': 'application/json',
   },
